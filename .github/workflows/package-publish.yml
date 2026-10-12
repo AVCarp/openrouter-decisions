@@ -22,4 +22,12 @@ jobs:
       - name: Publish to ClawHub
         env:
           CLAWHUB_TOKEN: ${{ secrets.CLAWHUB_TOKEN }}
-        run: clawhub package publish @AVCarp/openrouter-decisions --no-input
+        run: |-
+          VER="${GITHUB_REF_NAME#v}"
+          clawhub package publish . \
+            --family code-plugin \
+            --owner AVCarp \
+            --source-repo AVCarp/openrouter-decisions \
+            --version "$VER" \
+            --changelog "v$VER: TypeScript port, full decisions model catalog" \
+            --no-input
