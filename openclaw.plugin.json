@@ -94,104 +94,8 @@
   "decisionModels": [
     {
       "provider": "openrouter-decisions",
-      "id": "microsoft/microsoft-decision-1",
-      "name": "Microsoft decision 1",
-      "capabilities": {
-        "questionTypes": [
-          "boolean",
-          "choice",
-          "score"
-        ],
-        "maxQuestions": 256,
-        "maxChoiceAlternatives": 255,
-        "maxScoreLevels": 10,
-        "confidence": "provider-specific"
-      }
-    },
-    {
-      "provider": "openrouter-decisions",
-      "id": "nace-ai/drex-v1.5",
-      "name": "Drex v1.5",
-      "capabilities": {
-        "questionTypes": [
-          "boolean",
-          "choice",
-          "score"
-        ],
-        "maxQuestions": 256,
-        "maxChoiceAlternatives": 255,
-        "maxScoreLevels": 10,
-        "confidence": "provider-specific"
-      }
-    },
-    {
-      "provider": "openrouter-decisions",
-      "id": "cloudflare/clef-omni",
-      "name": "Clef omni",
-      "capabilities": {
-        "questionTypes": [
-          "boolean",
-          "choice",
-          "score"
-        ],
-        "maxQuestions": 256,
-        "maxChoiceAlternatives": 255,
-        "maxScoreLevels": 10,
-        "confidence": "provider-specific"
-      }
-    },
-    {
-      "provider": "openrouter-decisions",
-      "id": "upstage/solar-decide-flash",
-      "name": "Solar decide flash",
-      "capabilities": {
-        "questionTypes": [
-          "boolean",
-          "choice",
-          "score"
-        ],
-        "maxQuestions": 256,
-        "maxChoiceAlternatives": 255,
-        "maxScoreLevels": 10,
-        "confidence": "provider-specific"
-      }
-    },
-    {
-      "provider": "openrouter-decisions",
-      "id": "perplexity/decider-v1.1-27b",
-      "name": "Decider v1.1 27b",
-      "capabilities": {
-        "questionTypes": [
-          "boolean",
-          "choice",
-          "score"
-        ],
-        "maxQuestions": 256,
-        "maxChoiceAlternatives": 255,
-        "maxScoreLevels": 10,
-        "confidence": "provider-specific"
-      }
-    },
-    {
-      "provider": "openrouter-decisions",
-      "id": "openai/gpt-6-luna-decisions",
-      "name": "Gpt 6 luna decisions",
-      "capabilities": {
-        "questionTypes": [
-          "boolean",
-          "choice",
-          "score"
-        ],
-        "maxQuestions": 256,
-        "maxChoiceAlternatives": 255,
-        "maxScoreLevels": 10,
-        "confidence": "provider-specific"
-      }
-    },
-    {
-      "provider": "openrouter-decisions",
-      "id": "liquid/d1",
-      "name": "D1",
+      "id": "cloudflare/clef",
+      "name": "Cloudflare: Clef",
       "capabilities": {
         "questionTypes": [
           "boolean",
@@ -207,7 +111,7 @@
     {
       "provider": "openrouter-decisions",
       "id": "cloudflare/clef-flash",
-      "name": "Clef flash",
+      "name": "Cloudflare: Clef Flash",
       "capabilities": {
         "questionTypes": [
           "boolean",
@@ -222,24 +126,8 @@
     },
     {
       "provider": "openrouter-decisions",
-      "id": "cloudflare/clef",
-      "name": "Clef",
-      "capabilities": {
-        "questionTypes": [
-          "boolean",
-          "choice",
-          "score"
-        ],
-        "maxQuestions": 256,
-        "maxChoiceAlternatives": 255,
-        "maxScoreLevels": 10,
-        "confidence": "provider-specific"
-      }
-    },
-    {
-      "provider": "openrouter-decisions",
-      "id": "togethercomputer/tev1-4b-experimental",
-      "name": "Tev1 4b experimental",
+      "id": "cloudflare/clef-omni",
+      "name": "Cloudflare: Clef Omni",
       "capabilities": {
         "questionTypes": [
           "boolean",
@@ -255,7 +143,7 @@
     {
       "provider": "openrouter-decisions",
       "id": "inception/mercury-decide",
-      "name": "Mercury decide",
+      "name": "Inception: Mercury Decide",
       "capabilities": {
         "questionTypes": [
           "boolean",
@@ -271,7 +159,7 @@
     {
       "provider": "openrouter-decisions",
       "id": "inception/mercury-decide:free",
-      "name": "Mercury decide:free (free)",
+      "name": "Inception: Mercury Decide (free)",
       "capabilities": {
         "questionTypes": [
           "boolean",
@@ -286,8 +174,104 @@
     },
     {
       "provider": "openrouter-decisions",
-      "id": "upstage/solar-decide",
-      "name": "Solar decide",
+      "id": "jaredpalmer/kev-4b",
+      "name": "Jared Palmer: Kev 4B",
+      "capabilities": {
+        "questionTypes": [
+          "boolean",
+          "choice",
+          "score"
+        ],
+        "maxQuestions": 256,
+        "maxChoiceAlternatives": 255,
+        "maxScoreLevels": 10,
+        "confidence": "provider-specific"
+      }
+    },
+    {
+      "provider": "openrouter-decisions",
+      "id": "liquid/d1",
+      "name": "LiquidAI: d1",
+      "capabilities": {
+        "questionTypes": [
+          "boolean",
+          "choice",
+          "score"
+        ],
+        "maxQuestions": 256,
+        "maxChoiceAlternatives": 255,
+        "maxScoreLevels": 10,
+        "confidence": "provider-specific"
+      }
+    },
+    {
+      "provider": "openrouter-decisions",
+      "id": "microsoft/microsoft-decision-1",
+      "name": "Microsoft: Microsoft-Decision-1",
+      "capabilities": {
+        "questionTypes": [
+          "boolean",
+          "choice",
+          "score"
+        ],
+        "maxQuestions": 256,
+        "maxChoiceAlternatives": 255,
+        "maxScoreLevels": 10,
+        "confidence": "provider-specific"
+      }
+    },
+    {
+      "provider": "openrouter-decisions",
+      "id": "nace-ai/drex-v1.5",
+      "name": "Nace.AI: Drex v1.5",
+      "capabilities": {
+        "questionTypes": [
+          "boolean",
+          "choice",
+          "score"
+        ],
+        "maxQuestions": 256,
+        "maxChoiceAlternatives": 255,
+        "maxScoreLevels": 10,
+        "confidence": "provider-specific"
+      }
+    },
+    {
+      "provider": "openrouter-decisions",
+      "id": "nace-ai/drex-v2.0",
+      "name": "Nace.AI: Drex v2.0",
+      "capabilities": {
+        "questionTypes": [
+          "boolean",
+          "choice",
+          "score"
+        ],
+        "maxQuestions": 256,
+        "maxChoiceAlternatives": 255,
+        "maxScoreLevels": 10,
+        "confidence": "provider-specific"
+      }
+    },
+    {
+      "provider": "openrouter-decisions",
+      "id": "openai/gpt-6-luna-decisions",
+      "name": "OpenAI: GPT-6 Luna Decisions",
+      "capabilities": {
+        "questionTypes": [
+          "boolean",
+          "choice",
+          "score"
+        ],
+        "maxQuestions": 256,
+        "maxChoiceAlternatives": 255,
+        "maxScoreLevels": 10,
+        "confidence": "provider-specific"
+      }
+    },
+    {
+      "provider": "openrouter-decisions",
+      "id": "perplexity/pplx-decider-v1.1-27b",
+      "name": "Perplexity: Decider V1.1 27B",
       "capabilities": {
         "questionTypes": [
           "boolean",
@@ -303,43 +287,7 @@
     {
       "provider": "openrouter-decisions",
       "id": "respan/span-01",
-      "name": "Span 01 (noul only)",
-      "capabilities": {
-        "questionTypes": [
-          "boolean"
-        ],
-        "maxQuestions": 256,
-        "confidence": "none"
-      }
-    },
-    {
-      "provider": "openrouter-decisions",
-      "id": "respan/span-01-lite",
-      "name": "Span 01 lite (noul only)",
-      "capabilities": {
-        "questionTypes": [
-          "boolean"
-        ],
-        "maxQuestions": 256,
-        "confidence": "none"
-      }
-    },
-    {
-      "provider": "openrouter-decisions",
-      "id": "respan/span-01-lite:free",
-      "name": "Span 01 lite:free (free) (noul only)",
-      "capabilities": {
-        "questionTypes": [
-          "boolean"
-        ],
-        "maxQuestions": 256,
-        "confidence": "none"
-      }
-    },
-    {
-      "provider": "openrouter-decisions",
-      "id": "jaredpalmer/kev-4b",
-      "name": "Kev 4b",
+      "name": "Respan: Span-01",
       "capabilities": {
         "questionTypes": [
           "boolean",
@@ -354,8 +302,40 @@
     },
     {
       "provider": "openrouter-decisions",
-      "id": "~typesafe/jev-latest",
-      "name": "Jev latest",
+      "id": "respan/span-01-lite",
+      "name": "Respan: Span-01 Lite",
+      "capabilities": {
+        "questionTypes": [
+          "boolean",
+          "choice",
+          "score"
+        ],
+        "maxQuestions": 256,
+        "maxChoiceAlternatives": 255,
+        "maxScoreLevels": 10,
+        "confidence": "provider-specific"
+      }
+    },
+    {
+      "provider": "openrouter-decisions",
+      "id": "respan/span-01-lite:free",
+      "name": "Respan: Span-01 Lite (free)",
+      "capabilities": {
+        "questionTypes": [
+          "boolean",
+          "choice",
+          "score"
+        ],
+        "maxQuestions": 256,
+        "maxChoiceAlternatives": 255,
+        "maxScoreLevels": 10,
+        "confidence": "provider-specific"
+      }
+    },
+    {
+      "provider": "openrouter-decisions",
+      "id": "togethercomputer/tev1-4b-experimental",
+      "name": "Together: Tev1 4B Experimental",
       "capabilities": {
         "questionTypes": [
           "boolean",
@@ -371,7 +351,39 @@
     {
       "provider": "openrouter-decisions",
       "id": "typesafe/jev-1.13",
-      "name": "Jev 1.13",
+      "name": "TypeSafe: Jev 1.13",
+      "capabilities": {
+        "questionTypes": [
+          "boolean",
+          "choice",
+          "score"
+        ],
+        "maxQuestions": 256,
+        "maxChoiceAlternatives": 255,
+        "maxScoreLevels": 10,
+        "confidence": "provider-specific"
+      }
+    },
+    {
+      "provider": "openrouter-decisions",
+      "id": "upstage/solar-decide",
+      "name": "Upstage: Solar Decide",
+      "capabilities": {
+        "questionTypes": [
+          "boolean",
+          "choice",
+          "score"
+        ],
+        "maxQuestions": 256,
+        "maxChoiceAlternatives": 255,
+        "maxScoreLevels": 10,
+        "confidence": "provider-specific"
+      }
+    },
+    {
+      "provider": "openrouter-decisions",
+      "id": "upstage/solar-decide-flash",
+      "name": "Upstage: Solar Decide Flash",
       "capabilities": {
         "questionTypes": [
           "boolean",
@@ -384,5 +396,6 @@
         "confidence": "provider-specific"
       }
     }
-  ]
+  ],
+  "version": "0.1.2"
 }

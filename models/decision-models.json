@@ -1,0 +1,154 @@
+[
+  {
+    "id": "cloudflare/clef",
+    "name": "Cloudflare: Clef",
+    "context_length": 65536,
+    "pricing": {
+      "prompt": "0.00000024"
+    }
+  },
+  {
+    "id": "cloudflare/clef-flash",
+    "name": "Cloudflare: Clef Flash",
+    "context_length": 65536,
+    "pricing": {
+      "prompt": "0.000000038"
+    }
+  },
+  {
+    "id": "cloudflare/clef-omni",
+    "name": "Cloudflare: Clef Omni",
+    "context_length": 65536,
+    "pricing": {
+      "prompt": "0.00000015"
+    }
+  },
+  {
+    "id": "inception/mercury-decide",
+    "name": "Inception: Mercury Decide",
+    "context_length": 65536,
+    "pricing": {
+      "prompt": "0.00000002"
+    }
+  },
+  {
+    "id": "inception/mercury-decide:free",
+    "name": "Inception: Mercury Decide (free)",
+    "context_length": 65536,
+    "pricing": {
+      "prompt": "0"
+    }
+  },
+  {
+    "id": "jaredpalmer/kev-4b",
+    "name": "Jared Palmer: Kev 4B",
+    "context_length": 8192,
+    "pricing": {
+      "prompt": "0.000000042"
+    }
+  },
+  {
+    "id": "liquid/d1",
+    "name": "LiquidAI: d1",
+    "context_length": 65536,
+    "pricing": {
+      "prompt": "0.00000004"
+    }
+  },
+  {
+    "id": "microsoft/microsoft-decision-1",
+    "name": "Microsoft: Microsoft-Decision-1",
+    "context_length": 32768,
+    "pricing": {
+      "prompt": "0.000000042"
+    }
+  },
+  {
+    "id": "nace-ai/drex-v1.5",
+    "name": "Nace.AI: Drex v1.5",
+    "context_length": 131072,
+    "pricing": {
+      "prompt": "0.00000004"
+    }
+  },
+  {
+    "id": "nace-ai/drex-v2.0",
+    "name": "Nace.AI: Drex v2.0",
+    "context_length": 131072,
+    "pricing": {
+      "prompt": "0.00000006"
+    }
+  },
+  {
+    "id": "openai/gpt-6-luna-decisions",
+    "name": "OpenAI: GPT-6 Luna Decisions",
+    "context_length": 1050000,
+    "pricing": {
+      "prompt": "0.0000001"
+    }
+  },
+  {
+    "id": "perplexity/pplx-decider-v1.1-27b",
+    "name": "Perplexity: Decider V1.1 27B",
+    "context_length": 262144,
+    "pricing": {
+      "prompt": "0.00000002"
+    }
+  },
+  {
+    "id": "respan/span-01",
+    "name": "Respan: Span-01",
+    "context_length": 0,
+    "pricing": {
+      "prompt": "0.00000002"
+    }
+  },
+  {
+    "id": "respan/span-01-lite",
+    "name": "Respan: Span-01 Lite",
+    "context_length": 0,
+    "pricing": {
+      "prompt": "0"
+    }
+  },
+  {
+    "id": "respan/span-01-lite:free",
+    "name": "Respan: Span-01 Lite (free)",
+    "context_length": 0,
+    "pricing": {
+      "prompt": "0"
+    }
+  },
+  {
+    "id": "togethercomputer/tev1-4b-experimental",
+    "name": "Together: Tev1 4B Experimental",
+    "context_length": 32768,
+    "pricing": {
+      "prompt": "0.000000042"
+    }
+  },
+  {
+    "id": "typesafe/jev-1.13",
+    "name": "TypeSafe: Jev 1.13",
+    "context_length": 64000,
+    "pricing": {
+      "prompt": "0.000000042"
+    }
+  },
+  {
+    "id": "upstage/solar-decide",
+    "name": "Upstage: Solar Decide",
+    "context_length": 524288,
+    "pricing": {
+      "prompt": "0.00000005"
+    }
+  },
+  {
+    "id": "upstage/solar-decide-flash",
+    "name": "Upstage: Solar Decide Flash",
+    "context_length": 524288,
+    "pricing": {
+      "prompt": "0.00000005"
+    }
+  }
+]
