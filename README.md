@@ -81,6 +81,27 @@ catalog in the manifest is for discovery only. The catalog is refreshed automati
 scheduled workflow in this repository: it fetches the live decisions catalog, diffs it against the
 manifest, and publishes a patch release when models are added or removed.
 
+## How the model catalog is updated
+
+The decision model catalog lives in two checked-in files:
+
+- `models/decision-models.json` — snapshot of the OpenRouter decisions catalog
+  (per model: `id`, `name`, `context_length`, `pricing.prompt`), fetched from
+  `GET https://openrouter.ai/api/v1/models?output_modalities=decisions`;
+- `openclaw.plugin.json` — the generated `decisionModels[]` used by the plugin at runtime.
+
+A scheduled GitHub Actions workflow (`.github/workflows/sync-models.yml`, daily at 06:17 UTC)
+runs `scripts/sync-models.mjs`, which:
+
+1. fetches the live catalog and compares it against the snapshot;
+2. if there is a diff — rewrites the snapshot, regenerates `decisionModels[]` in the manifest,
+   bumps the patch version, commits (`chore: refresh decision models catalog`), pushes,
+   and tags `v<version>`. Tagging is what triggers the publish workflow — the sync script
+   never publishes manually;
+3. if there is no diff — exits quietly (`no changes`).
+
+You can also run it manually: `node scripts/sync-models.mjs`.
+
 ## Build
 
 ```

@@ -1,0 +1,21 @@
+name: sync-models
+
+on:
+  schedule:
+    # daily at 06:17 UTC (non-round time on purpose)
+    - cron: '17 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Sync decision models catalog
+        run: node scripts/sync-models.mjs
