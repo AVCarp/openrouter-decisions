@@ -127,7 +127,7 @@ function toWireQuestions(questions: Record<string, HostQuestion>): Record<string
 }
 
 // Tolerant validation: ignore OpenRouter extra fields (id, provider, usage.cost, legend).
-function parseEvaluation(raw: WireResponse, wireQuestions: Record<string, WireQuestion>): DecisionEvaluation {
+function parseEvaluation(raw: WireResponse, wireQuestions: Record<string, WireQuestion>, hostQuestions?: Record<string, unknown>): DecisionEvaluation {
   if (!raw || typeof raw !== "object") throw new Error("invalid evaluation: not an object");
   const model = typeof raw.model === "string" ? raw.model : "";
   if (!model) throw new Error("invalid evaluation: missing model");
@@ -167,13 +167,29 @@ function parseEvaluation(raw: WireResponse, wireQuestions: Record<string, WireQu
       if (scoreAnswer.type !== "score" || typeof scoreAnswer.score !== "number") {
         throw new Error("invalid evaluation: bad score answer " + id);
       }
-      const levels = Array.isArray(wireQuestion.levels) ? wireQuestion.levels : [];
+      // Host score.questions carry criteria (array of level descriptions); the wire
+      // question passes them through as criteria (see toWireQuestions, score passes
+      // through untouched). Validate probabilities against host criteria length.
+      const hostQuestion = hostQuestions ? (hostQuestions as Record<string, HostQuestion>)[id] : undefined;
+      const levels = Array.isArray(hostQuestion?.criteria)
+        ? hostQuestion.criteria
+        : Array.isArray(wireQuestion.levels)
+          ? wireQuestion.levels
+          : [];
       const rawProbs = scoreAnswer.probabilities ?? {};
+      const probabilities = levels.map((_, i) => {
+        const v = Number(rawProbs[String(i)] ?? 0);
+        if (!Number.isFinite(v)) throw new Error("invalid evaluation: bad score probabilities " + id);
+        return v;
+      });
+      if (probabilities.length > 0 && !probabilities.some((v) => v > 0)) {
+        throw new Error("invalid evaluation: degenerate score distribution " + id);
+      }
       answers[id] = {
         type: "score",
         score: scoreAnswer.score,
         confidence: scoreAnswer.confidence,
-        probabilities: levels.map((_, i) => Number(rawProbs[String(i)] ?? 0)),
+        probabilities,
       };
     } else {
       throw new Error("invalid evaluation: unknown question type " + String((wireQuestion as WireQuestion).type));
@@ -266,7 +282,7 @@ function createDecisionProvider(getConfig: () => PluginConfig): DecisionProvider
           context.signal,
         );
         context.signal?.throwIfAborted?.();
-        const evaluation = parseEvaluation(raw, wireQuestions);
+        const evaluation = parseEvaluation(raw, wireQuestions, batch.questions);
         return { status: "ok", result: evaluation };
       } catch (error) {
         context.signal?.throwIfAborted?.();
