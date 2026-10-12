@@ -21,9 +21,9 @@ jobs:
       - run: npm i -g clawhub
       - name: Authenticate ClawHub
         env:
-          CLAWHUB_TOKEN: *** secrets.CLAWHUB_TOKEN }}
+          CLAWHUB_TOKEN: ${{ secrets.CLAWHUB_TOKEN }}
         run: |-
-          clawhub auth login --token "***" --label github-actions --no-browser
+          clawhub auth login --token "$CLAWHUB_TOKEN" --label github-actions --no-browser
           clawhub whoami
       - name: Publish to ClawHub
         env:
