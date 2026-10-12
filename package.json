@@ -1,0 +1,33 @@
+{
+  "name": "@AVCarp/openrouter-decisions",
+  "version": "0.1.0",
+  "private": false,
+  "description": "OpenRouter Decisions - typed decision provider via OpenRouter's Decisions API (/api/alpha/decisions). Full model ids on the wire, tolerant response validation, optional apiKey SecretRef, baseUrl defaults to https://openrouter.ai.",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AVCarp/openrouter-decisions.git"
+  },
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "peerDependencies": {
+    "openclaw": ">=2026.3.24-beta.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.0"
+  },
+  "openclaw": {
+    "extensions": [
+      "./dist/index.js"
+    ],
+    "compat": {
+      "pluginApi": ">=2026.3.24-beta.2"
+    },
+    "build": {
+      "openclawVersion": "2026.10.2"
+    }
+  }
+}
