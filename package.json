@@ -29,5 +29,12 @@
     "build": {
       "openclawVersion": "2026.10.2"
     }
-  }
+  },
+  "files": [
+    "dist",
+    "src",
+    "LICENSE",
+    "README.md",
+    "openclaw.plugin.json"
+  ]
 }
