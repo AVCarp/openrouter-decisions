@@ -1,6 +1,8 @@
 dist/
 node_modules/
 reports/
+tsconfig.tsbuildinfo
+
 # Локальные рабочие каталоги этой сессии (не часть плагина)
 archive/
 memory/
