@@ -116,8 +116,22 @@ You can also run it manually: `node scripts/sync-models.mjs`.
 | `build.yml` | push, pull_request | `npm ci`, `npm run build`, `clawhub package validate .` |
 | `package-publish.yml` | tag `v*`, or `workflow_dispatch` | verify a `vX.Y.Z` tag ref, `npm ci`, `npm run build`, install `clawhub@0.23.3`, authenticate, `clawhub package publish . --family code-plugin --owner AVCarp --source-repo AVCarp/openrouter-decisions --version <ver>` |
 | `sync-models.yml` | daily schedule (06:17 UTC), `workflow_dispatch` | run `scripts/sync-models.mjs`, then dispatch `package-publish.yml` for the pushed release tag |
+| `release.yml` | `workflow_dispatch` (manual button) | bump `package.json` + `openclaw.plugin.json`, commit, tag `v<version>`, atomic push, dispatch `package-publish.yml` |
 
 Publishing requires the `CLAWHUB_TOKEN` repository secret.
+
+### Cutting a release by hand
+
+`release.yml` is the manual release button: **Actions → release → Run workflow**, pick a
+`patch`/`minor`/`major` bump, and it does the rest. Unlike `sync-models.yml`, it does not depend on the
+model catalog changing, so it is the way to publish doc- or code-only changes (a new README, a
+publish-configuration tweak, etc.). It bumps the version in both `package.json` and
+`openclaw.plugin.json` (via `scripts/bump-manifest-version.mjs`), commits `chore: v<version>`, tags
+`v<version>`, pushes branch + tag in one atomic push, and dispatches `package-publish.yml` for the
+tag (a tag pushed with the default `GITHUB_TOKEN` does not trigger workflows by itself). It aborts if
+the branch is behind `origin/main`.
+
+`sync-models.yml` remains the automatic path: it releases only on catalog identity changes.
 
 ## Manual publish notes
 
