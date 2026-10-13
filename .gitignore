@@ -1,3 +1,8 @@
 dist/
 node_modules/
 reports/
+# Локальные рабочие каталоги этой сессии (не часть плагина)
+archive/
+memory/
+notes/
+media/
