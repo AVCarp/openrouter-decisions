@@ -102,12 +102,33 @@ function currentConfig(snapshot: RuntimeConfigSnapshot | undefined): PluginConfi
   };
 }
 
+// HTTP failures carry the numeric status so classification never depends on the
+// (untrusted) response text.
+class HttpError extends Error {
+  constructor(readonly status: number, message: string) {
+    super(message);
+    this.name = "HttpError";
+  }
+}
+
+// Protocol-level failures: malformed JSON or evaluations violating the wire contract.
+class ProtocolError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "ProtocolError";
+  }
+}
+
+// Structural classification by error type/status only — no substring scanning of
+// messages, which embed question ids and response bodies.
 function decisionFailure(error: unknown): { status: "unavailable"; reason: FailureReason } {
-  const message = error instanceof Error ? error.message : String(error);
-  if (/abort|timeout/i.test(message)) return { status: "unavailable", reason: "transport" };
-  if (/401|403|auth/i.test(message)) return { status: "unavailable", reason: "authentication" };
-  if (/429|rate/i.test(message)) return { status: "unavailable", reason: "rate-limited" };
-  if (/invalid (json|evaluation)/i.test(message)) return { status: "unavailable", reason: "invalid-response" };
+  if (error instanceof HttpError) {
+    if (error.status === 401 || error.status === 403) return { status: "unavailable", reason: "authentication" };
+    if (error.status === 429) return { status: "unavailable", reason: "rate-limited" };
+    return { status: "unavailable", reason: "transport" };
+  }
+  if (error instanceof ProtocolError) return { status: "unavailable", reason: "invalid-response" };
+  // Abort/timeout errors (DOMException "AbortError"/"TimeoutError") surface here as transport.
   return { status: "unavailable", reason: "transport" };
 }
 
@@ -126,18 +147,30 @@ function toWireQuestions(questions: Record<string, HostQuestion>): Record<string
   );
 }
 
+// Shared choice/score distribution invariant: every value must be finite, and the
+// distribution must be non-empty with at least one positive value. Checks run in
+// this order so the first failure reports the same error as before.
+function assertValidDistribution(values: number[], id: string, kind: "choice" | "score"): void {
+  for (const v of values) {
+    if (!Number.isFinite(v)) throw new ProtocolError("invalid evaluation: bad " + kind + " probabilities " + id);
+  }
+  if (values.length === 0 || !values.some((v) => v > 0)) {
+    throw new ProtocolError("invalid evaluation: degenerate " + kind + " distribution " + id);
+  }
+}
+
 // Tolerant validation: ignore OpenRouter extra fields (id, provider, usage.cost, legend).
 function parseEvaluation(raw: WireResponse, wireQuestions: Record<string, WireQuestion>, hostQuestions?: Record<string, unknown>): DecisionEvaluation {
-  if (!raw || typeof raw !== "object") throw new Error("invalid evaluation: not an object");
+  if (!raw || typeof raw !== "object") throw new ProtocolError("invalid evaluation: not an object");
   const model = typeof raw.model === "string" ? raw.model : "";
-  if (!model) throw new Error("invalid evaluation: missing model");
+  if (!model) throw new ProtocolError("invalid evaluation: missing model");
   const rawAnswers = raw.answers;
-  if (!rawAnswers || typeof rawAnswers !== "object") throw new Error("invalid evaluation: missing answers");
+  if (!rawAnswers || typeof rawAnswers !== "object") throw new ProtocolError("invalid evaluation: missing answers");
 
   const answers: Record<string, DecisionAnswer> = {};
   for (const [id, wireQuestion] of Object.entries(wireQuestions)) {
     const a = rawAnswers[id];
-    if (!a || typeof a !== "object") throw new Error("invalid evaluation: missing answer " + id);
+    if (!a || typeof a !== "object") throw new ProtocolError("invalid evaluation: missing answer " + id);
     const answer = a as Partial<WireAnswer>;
     if (wireQuestion.type === "noul") {
       const noul = (answer as Partial<WireNoulAnswer>).noul;
@@ -146,16 +179,20 @@ function parseEvaluation(raw: WireResponse, wireQuestions: Record<string, WireQu
         typeof noul !== "number" ||
         !(noul >= 0 && noul <= 1)
       ) {
-        throw new Error("invalid evaluation: bad noul answer " + id);
+        throw new ProtocolError("invalid evaluation: bad noul answer " + id);
       }
       answers[id] = { type: "boolean", probabilityTrue: noul };
     } else if (wireQuestion.type === "choice") {
       const choiceAnswer = answer as Partial<WireChoiceAnswer>;
       if (choiceAnswer.type !== "choice" || typeof choiceAnswer.choice !== "string" || !choiceAnswer.probabilities) {
-        throw new Error("invalid evaluation: bad choice answer " + id);
+        throw new ProtocolError("invalid evaluation: bad choice answer " + id);
       }
+      const rawProbs = choiceAnswer.probabilities;
       const probs: Record<string, number> = {};
-      for (const [k, v] of Object.entries(choiceAnswer.probabilities ?? {})) probs[k] = Number(v);
+      for (const [k, v] of Object.entries(rawProbs)) {
+        probs[k] = Number(v);
+      }
+      assertValidDistribution(Object.values(probs), id, "choice");
       answers[id] = {
         type: "choice",
         choice: choiceAnswer.choice as string,
@@ -165,7 +202,7 @@ function parseEvaluation(raw: WireResponse, wireQuestions: Record<string, WireQu
     } else if (wireQuestion.type === "score") {
       const scoreAnswer = answer as Partial<WireScoreAnswer>;
       if (scoreAnswer.type !== "score" || typeof scoreAnswer.score !== "number") {
-        throw new Error("invalid evaluation: bad score answer " + id);
+        throw new ProtocolError("invalid evaluation: bad score answer " + id);
       }
       // Host score.questions carry criteria (array of level descriptions); the wire
       // question passes them through as criteria (see toWireQuestions, score passes
@@ -175,16 +212,12 @@ function parseEvaluation(raw: WireResponse, wireQuestions: Record<string, WireQu
         ? hostQuestion.criteria
         : Array.isArray(wireQuestion.levels)
           ? wireQuestion.levels
-          : [];
+          : (() => {
+              throw new ProtocolError("invalid evaluation: no score levels " + id);
+            })();
       const rawProbs = scoreAnswer.probabilities ?? {};
-      const probabilities = levels.map((_, i) => {
-        const v = Number(rawProbs[String(i)] ?? 0);
-        if (!Number.isFinite(v)) throw new Error("invalid evaluation: bad score probabilities " + id);
-        return v;
-      });
-      if (probabilities.length > 0 && !probabilities.some((v) => v > 0)) {
-        throw new Error("invalid evaluation: degenerate score distribution " + id);
-      }
+      const probabilities = levels.map((_, i) => Number(rawProbs[String(i)] ?? 0));
+      assertValidDistribution(probabilities, id, "score");
       answers[id] = {
         type: "score",
         score: scoreAnswer.score,
@@ -192,7 +225,7 @@ function parseEvaluation(raw: WireResponse, wireQuestions: Record<string, WireQu
         probabilities,
       };
     } else {
-      throw new Error("invalid evaluation: unknown question type " + String((wireQuestion as WireQuestion).type));
+      throw new ProtocolError("invalid evaluation: unknown question type " + String((wireQuestion as WireQuestion).type));
     }
   }
 
@@ -216,19 +249,47 @@ async function postJson(
 ): Promise<WireResponse> {
   const signals = [AbortSignal.timeout(timeoutMs)];
   if (signal) signals.push(signal);
-  const composite = AbortSignal.any?.(signals) ?? signals[0]!;
-  const response = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", Accept: "application/json", ...headers },
-    body: JSON.stringify(body),
-    signal: composite,
-  });
-  const text = await response.text();
-  if (!response.ok) throw new Error("HTTP " + response.status + ": " + text.slice(0, 300));
+  let composite: AbortSignal;
+  let cleanup = () => {};
+  if (AbortSignal.any) {
+    composite = AbortSignal.any(signals);
+  } else {
+    // Node < 20.3 has no AbortSignal.any: compose manually so caller
+    // cancellation still aborts the in-flight request instead of being dropped.
+    const controller = new AbortController();
+    const listeners = signals.map((source) => {
+      const listener = () => controller.abort(source.reason);
+      source.addEventListener("abort", listener, { once: true });
+      return { source, listener };
+    });
+    // A source already aborted before its listener was attached never fires.
+    for (const { source } of listeners) {
+      if (source.aborted) {
+        controller.abort(source.reason);
+        break;
+      }
+    }
+    composite = controller.signal;
+    cleanup = () => {
+      for (const { source, listener } of listeners) source.removeEventListener("abort", listener);
+    };
+  }
   try {
-    return JSON.parse(text) as WireResponse;
-  } catch {
-    throw new Error("invalid json");
+    const response = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json", ...headers },
+      body: JSON.stringify(body),
+      signal: composite,
+    });
+    const text = await response.text();
+    if (!response.ok) throw new HttpError(response.status, "HTTP " + response.status + ": " + text.slice(0, 300));
+    try {
+      return JSON.parse(text) as WireResponse;
+    } catch {
+      throw new ProtocolError("invalid json");
+    }
+  } finally {
+    cleanup();
   }
 }
 

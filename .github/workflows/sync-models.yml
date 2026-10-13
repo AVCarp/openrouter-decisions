@@ -8,14 +8,38 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
   sync:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 24
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
       - name: Sync decision models catalog
+        id: sync
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: node scripts/sync-models.mjs
+      - name: Dispatch package publish for pushed release
+        if: steps.sync.outputs.release-tag != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ steps.sync.outputs.release-tag }}
+        run: |
+          attempt=1
+          until gh workflow run package-publish.yml --ref "$RELEASE_TAG"; do
+            if [ "$attempt" -ge 3 ]; then
+              echo "::error::failed to dispatch package publish for $RELEASE_TAG after 3 attempts — rerun manually with: gh workflow run package-publish.yml --ref $RELEASE_TAG" >&2
+              exit 1
+            fi
+            sleep 5
+            attempt=$((attempt + 1))
+          done

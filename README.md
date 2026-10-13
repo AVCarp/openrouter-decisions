@@ -53,33 +53,21 @@ Example — pick a decision model for agents:
 
 ## Supported models
 
-The manifest ships the full OpenRouter decisions catalog (19 entries, fetched 2026-10-12 via
-`GET https://openrouter.ai/api/v1/models?output_modalities=decisions`):
+The full OpenRouter decisions catalog is fetched from
+`GET https://openrouter.ai/api/v1/models?output_modalities=decisions` into two generated files —
+treat those as authoritative instead of a hand-maintained list:
 
-- `microsoft/microsoft-decision-1`
-- `nace-ai/drex-v1.5`
-- `cloudflare/clef-omni`
-- `upstage/solar-decide-flash`
-- `perplexity/decider-v1.1-27b`
-- `openai/gpt-6-luna-decisions`
-- `liquid/d1`
-- `cloudflare/clef-flash`
-- `cloudflare/clef`
-- `togethercomputer/tev1-4b-experimental`
-- `inception/mercury-decide`
-- `inception/mercury-decide:free`
-- `upstage/solar-decide`
-- `respan/span-01` *(noul only)*
-- `respan/span-01-lite` *(noul only)*
-- `respan/span-01-lite:free` *(noul only)*
-- `jaredpalmer/kev-4b`
-- `~typesafe/jev-latest`
-- `typesafe/jev-1.13`
+- `openclaw.plugin.json` — the generated `decisionModels[]` discovery list used by the plugin;
+- `models/decision-models.json` — the full catalog snapshot (`id`, `name`, `context_length`,
+  `pricing.prompt`).
 
-Any full OpenRouter model id works — there are no hard restrictions in the provider code; the
-catalog in the manifest is for discovery only. The catalog is refreshed automatically by a
-scheduled workflow in this repository: it fetches the live decisions catalog, diffs it against the
-manifest, and publishes a patch release when models are added or removed.
+Both are refreshed automatically by the scheduled workflow (see
+[How the model catalog is updated](#how-the-model-catalog-is-updated)); for example, the catalog
+contains `openai/gpt-6-luna-decisions` and `nace-ai/drex-v2.0`.
+
+Any full OpenRouter model id still works — there are no hard restrictions in the provider code; the
+catalog in the manifest is for discovery only. All `respan/*` entries are noul-only, and upstream
+`~`-prefixed alias ids are excluded from both generated files as non-stable wire ids.
 
 ## How the model catalog is updated
 
@@ -93,12 +81,51 @@ The decision model catalog lives in two checked-in files:
 A scheduled GitHub Actions workflow (`.github/workflows/sync-models.yml`, daily at 06:17 UTC)
 runs `scripts/sync-models.mjs`, which:
 
-1. fetches the live catalog and compares it against the snapshot;
-2. if there is a diff — rewrites the snapshot, regenerates `decisionModels[]` in the manifest,
-   bumps the patch version, commits (`chore: refresh decision models catalog`), pushes,
-   and tags `v<version>`. Tagging is what triggers the publish workflow — the sync script
-   never publishes manually;
-3. if there is no diff — exits quietly (`no changes`).
+1. fetches the live catalog and compares it against the snapshot and the manifest entries; before
+   any of the outcomes below, it also checks for a prepared-but-unpushed release — a local tag
+   `v<package.json version>` at HEAD that is absent on origin — and, if found, re-pushes branch + tag
+   in one push, exports the tag as a step output (`release-tag`) after the successful push, and exits;
+   the sync workflow's next step (`Dispatch package publish for pushed release`) then dispatches the
+   publish workflow for that tag explicitly: `gh workflow run package-publish.yml --ref "<tag>"` with
+   a 3-attempt retry and `workflow_dispatch`, which is allowed with the default `GITHUB_TOKEN`
+   (ordinary pushes made with it do not trigger workflows). In manual local runs the script just
+   prints `pushed release: <tag>`.
+   That recovery relies on local tags: in the scheduled CI run a failed push leaves nothing to
+   recover (the runner is ephemeral and `actions/checkout` fetches without tags), so it effectively
+   serves manual/local runs. If the prepared tag points at a pre-rebase commit (a rewritten release
+   after the advised `git pull --rebase`), recovery force-moves it to HEAD only when the tag's tree
+   is identical to HEAD's tree — proof the rebase preserved the release content verbatim; any other
+   divergence aborts with a manual-reconcile hint instead of force-publishing;
+2. no changes — exits quietly (`no changes`);
+3. pricing/context only (the model id/name set is unchanged and the manifest's `decisionModels[]`
+   entries match the catalog; only `context_length`/`pricing.prompt` moved) — rewrites the snapshot
+   and pushes a plain commit
+   (`chore: refresh decision models catalog (pricing/context only, no release)`): no manifest
+   regeneration, no version bump, no tag, no release;
+4. identity changes (the model id/name set changed — models added, removed, or renamed) or a
+   manifest whose `decisionModels[]` entries no longer match the catalog (e.g. a hand-edited or
+   stale manifest, even with no catalog change) — full release: rewrites the snapshot, regenerates
+   `decisionModels[]` in the manifest, bumps the patch version, commits
+   (`chore: refresh decision models catalog`), tags `v<version>`, and pushes branch + tag in a
+   single push. After a successful push the script exports the tag as a step output (`release-tag`);
+   the workflow's next step dispatches the publish workflow for it
+   (`gh workflow run package-publish.yml --ref "v<version>"`) with a 3-attempt retry; in manual local
+   runs it just prints `pushed release: <tag>`. `package-publish.yml` also keeps its
+   `on: push: tags: 'v*'` trigger, so tags pushed manually by the maintainer from their own
+   credentials publish as before — the sync script never publishes manually.
+
+The first automated release must be cut after this change set is merged: `gh workflow run` resolves
+`package-publish.yml` on the pushed tag, so a tag cut from a commit whose tree lacks the
+`workflow_dispatch` trigger would fail to dispatch.
+
+The script guards against races and half-published releases before writing anything: it aborts
+cleanly if the remote branch has moved ahead (fetch + divergence check), refuses to proceed when the
+prospective `v<version>` tag already exists locally or on origin, and applies per-command timeouts.
+It also self-heals stranded releases: if the pushed `v<version>` tag has no successful
+`package-publish` run on origin (its dispatch failed on a previous run while the tag push succeeded),
+the next sync detects this via `gh run list` and re-dispatches the publish workflow (3 attempts) in
+CI, or aborts with the exact manual command (`gh workflow run package-publish.yml --ref <tag>`) in
+local runs.
 
 You can also run it manually: `node scripts/sync-models.mjs`.
 
