@@ -33,8 +33,10 @@
   "files": [
     "dist",
     "src",
+    "models",
     "LICENSE",
     "README.md",
+    "DEVELOPING.md",
     "openclaw.plugin.json"
   ]
 }
