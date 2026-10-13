@@ -4,15 +4,15 @@
     "name": "Cloudflare: Clef",
     "context_length": 65536,
     "pricing": {
-      "prompt": "0.00000024"
+      "prompt": "0.000000042"
     }
   },
   {
     "id": "cloudflare/clef-flash",
     "name": "Cloudflare: Clef Flash",
-    "context_length": 65536,
+    "context_length": 24576,
     "pricing": {
-      "prompt": "0.000000038"
+      "prompt": "0.000000021"
     }
   },
   {
@@ -117,6 +117,14 @@
     "context_length": 0,
     "pricing": {
       "prompt": "0"
+    }
+  },
+  {
+    "id": "scaledown/classify-1",
+    "name": "ScaleDown: Classify-1",
+    "context_length": 1000000,
+    "pricing": {
+      "prompt": "0.00000004"
     }
   },
   {

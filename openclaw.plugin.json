@@ -334,6 +334,22 @@
     },
     {
       "provider": "openrouter-decisions",
+      "id": "scaledown/classify-1",
+      "name": "ScaleDown: Classify-1",
+      "capabilities": {
+        "questionTypes": [
+          "boolean",
+          "choice",
+          "score"
+        ],
+        "maxQuestions": 256,
+        "maxChoiceAlternatives": 255,
+        "maxScoreLevels": 10,
+        "confidence": "provider-specific"
+      }
+    },
+    {
+      "provider": "openrouter-decisions",
       "id": "togethercomputer/tev1-4b-experimental",
       "name": "Together: Tev1 4B Experimental",
       "capabilities": {
@@ -397,5 +413,5 @@
       }
     }
   ],
-  "version": "0.1.3"
+  "version": "0.1.4"
 }
