@@ -4,140 +4,155 @@ A [decision provider](https://docs.openclaw.ai/plugins) plugin for [OpenClaw](ht
 connects OpenClaw's decision engine to the native
 [OpenRouter Decisions API](https://openrouter.ai) (`POST {baseUrl}/api/alpha/decisions`).
 
-## What it does
+Use it when you want OpenClaw to ask a question — "should I proceed?", "which of these options is
+better?" — and get a **probability, a choice, or a score back from a model** instead of free-form
+text.
 
-- Registers a typed decision provider (`registerDecisionProvider`, contract v1) via the OpenClaw Plugin SDK.
-- **Full model ids on the wire.** `decisionModels[].id` in the manifest is exactly the id sent to
-  OpenRouter — no hidden mapping. If the host passes the full plugin ref
-  (`openrouter-decisions/<model-id>`), the prefix is stripped before the request.
-- **Tolerant response validation.** Extra fields OpenRouter adds to the response
-  (`id`, `provider`, `usage.cost`, `legend`) are ignored instead of failing validation.
-- **boolean → noul mapping.** Host boolean questions are sent as `noul` questions; the numeric
-  `noul` answer (0..1) is returned to the host as `{ type: "boolean", probabilityTrue }`.
-  `choice` and `score` questions pass through.
-- **`respan/` models are noul-only.** Questions to any `respan/*` model must be boolean;
-  otherwise the provider reports `unsupported-input` (verified live 2026-10-01).
+> Looking for install-from-source, architecture, catalog-sync internals, or CI/release details?
+> See **[DEVELOPING.md](DEVELOPING.md)**. This README is the end-user guide.
+
+## Requirements
+
+- OpenClaw with plugin support (plugin API `>=2026.3.24-beta.2`).
+- An OpenRouter account. An API key is optional in two cases: you run a local proxy that injects
+  auth, or the configured endpoint does not check auth.
 
 ## Installation
 
-From ClawHub:
+From ClawHub (recommended):
 
 ```
 openclaw plugins install clawhub:@AVCarp/openrouter-decisions
 ```
 
-From the git repository:
+From the git repository (development builds):
 
 ```
 openclaw plugins install git:https://github.com/AVCarp/openrouter-decisions
 ```
 
+The plugin ships disabled by default (`enabledByDefault: false`) — enable it in your OpenClaw
+config after installing.
+
 ## Configuration
 
 | Option | Type | Default | Description |
 |---|---|---|---|
-| `apiKey` | SecretRef | — | OpenRouter API credential. Sent as `Authorization: Bearer`. Optional when the configured endpoint does not check auth (e.g. a local proxy that injects auth). |
+| `apiKey` | SecretRef | — | OpenRouter API credential. Sent as `Authorization: Bearer`. Omit when the configured endpoint does not check auth (e.g. a local proxy that injects auth). |
 | `baseUrl` | string | `https://openrouter.ai` | Any http(s) origin, optionally with a path prefix — e.g. a loopback proxy `http://127.0.0.1:8290`. The provider POSTs `{baseUrl}/api/alpha/decisions`. |
 | `timeoutMs` | integer | `45000` | Request timeout (1000–120000 ms), enforced via `AbortSignal`. |
 
 `apiKey` is declared as a secret input (`configContracts.secretInputs`), so set it through
-**Settings → Secrets** rather than plain config. Requests without a key still go out unauthenticated.
+**Settings → Secrets** and reference it from config — do not paste the raw value into plain config.
+Requests without a key still go out unauthenticated.
 
-Example — pick a decision model for agents:
+### Example: enable the plugin with an API key
+
+For the hosted OpenRouter endpoint, create a protected credential in Settings → Secrets, then
+reference it from the plugin configuration. Merge this example into your existing configuration;
+keep any other entries in `plugins.allow`.
 
 ```json
 {
-  "agents": { "defaults": { "decisionModel": "openrouter-decisions/openai/gpt-6-luna-decisions" } }
+  "plugins": {
+    "allow": ["openrouter-decisions"],
+    "entries": {
+      "openrouter-decisions": {
+        "enabled": true,
+        "config": {
+          "apiKey": { "source": "store", "provider": "openrouter", "id": "default" }
+        }
+      }
+    }
+  },
+  "agents": {
+    "defaults": { "decisionModel": "openrouter-decisions/~typesafe/jev-latest" }
+  }
+}
+```
+
+The host reads its prepared SecretRef value for each request; it does not independently read
+environment credentials or cache a previous credential. A missing or unavailable credential makes
+decisions unavailable.
+
+### Example: select a decision model
+
+Once the provider is enabled, select the model OpenClaw uses for decisions. The value is
+`<provider>/<full-model-id>`; an unset global role leaves decisions off.
+
+```json
+{
+  "agents": {
+    "defaults": { "decisionModel": "openrouter-decisions/openai/gpt-6-luna-decisions" },
+    "entries": {
+      "research": { "decisionModel": "openrouter-decisions/typesafe/jev-1.13" }
+    }
+  }
 }
 ```
 
 ## Supported models
 
-The full OpenRouter decisions catalog is fetched from
-`GET https://openrouter.ai/api/v1/models?output_modalities=decisions` into two generated files —
-treat those as authoritative instead of a hand-maintained list:
+All decision models come from OpenRouter's decisions catalog
+(`GET https://openrouter.ai/api/v1/models?output_modalities=decisions`). A short selection:
 
-- `openclaw.plugin.json` — the generated `decisionModels[]` discovery list used by the plugin;
-- `models/decision-models.json` — the full catalog snapshot (`id`, `name`, `context_length`,
-  `pricing.prompt`).
+| Model id | Notes |
+|---|---|
+| `openai/gpt-6-luna-decisions` | Large context, general-purpose decisions |
+| `nace-ai/drex-v2.0` | High-quality decisions |
+| `nace-ai/drex-v1.5` | Previous Drex generation |
+| `upstage/solar-decide` | Long context (512K) |
+| `upstage/solar-decide-flash` | Faster, cheaper variant |
+| `cloudflare/clef` | Low cost |
+| `cloudflare/clef-flash` | Fastest / cheapest Clef |
+| `liquid/d1` | Compact decisions model |
+| `microsoft/microsoft-decision-1` | Microsoft decisions model |
+| `inception/mercury-decide` | Also available as `inception/mercury-decide:free` |
+| `perplexity/decider-v1.1-27b` | Perplexity decisions model |
+| `respan/span-01` | Noul-only — boolean questions only (see below) |
+| `respan/span-01-lite` | Noul-only; also `:free` |
 
-Both are refreshed automatically by the scheduled workflow (see
-[How the model catalog is updated](#how-the-model-catalog-is-updated)); for example, the catalog
-contains `openai/gpt-6-luna-decisions` and `nace-ai/drex-v2.0`.
+The catalog is much larger than this table, and it changes. The authoritative, always-current list
+lives in the generated manifest (`decisionModels[]` in `openclaw.plugin.json`) and in
+`models/decision-models.json`. Any full OpenRouter model id also works — the provider has no hard
+model allow-list; the catalog is used for discovery only.
 
-Any full OpenRouter model id still works — there are no hard restrictions in the provider code; the
-catalog in the manifest is for discovery only. All `respan/*` entries are noul-only, and upstream
-`~`-prefixed alias ids are excluded from both generated files as non-stable wire ids.
+### Tilde (`-latest`) alias models are supported
 
-## How the model catalog is updated
+OpenRouter publishes floating alias ids that begin with `~`, e.g. `~typesafe/jev-latest`. These
+track the newest release of a model line and are **valid decision models** — you can pass them
+directly as the model id:
 
-The decision model catalog lives in two checked-in files:
-
-- `models/decision-models.json` — snapshot of the OpenRouter decisions catalog
-  (per model: `id`, `name`, `context_length`, `pricing.prompt`), fetched from
-  `GET https://openrouter.ai/api/v1/models?output_modalities=decisions`;
-- `openclaw.plugin.json` — the generated `decisionModels[]` used by the plugin at runtime.
-
-A scheduled GitHub Actions workflow (`.github/workflows/sync-models.yml`, daily at 06:17 UTC)
-runs `scripts/sync-models.mjs`, which:
-
-1. fetches the live catalog and compares it against the snapshot and the manifest entries; before
-   any of the outcomes below, it also checks for a prepared-but-unpushed release — a local tag
-   `v<package.json version>` at HEAD that is absent on origin — and, if found, re-pushes branch + tag
-   in one push, exports the tag as a step output (`release-tag`) after the successful push, and exits;
-   the sync workflow's next step (`Dispatch package publish for pushed release`) then dispatches the
-   publish workflow for that tag explicitly: `gh workflow run package-publish.yml --ref "<tag>"` with
-   a 3-attempt retry and `workflow_dispatch`, which is allowed with the default `GITHUB_TOKEN`
-   (ordinary pushes made with it do not trigger workflows). In manual local runs the script just
-   prints `pushed release: <tag>`.
-   That recovery relies on local tags: in the scheduled CI run a failed push leaves nothing to
-   recover (the runner is ephemeral and `actions/checkout` fetches without tags), so it effectively
-   serves manual/local runs. If the prepared tag points at a pre-rebase commit (a rewritten release
-   after the advised `git pull --rebase`), recovery force-moves it to HEAD only when the tag's tree
-   is identical to HEAD's tree — proof the rebase preserved the release content verbatim; any other
-   divergence aborts with a manual-reconcile hint instead of force-publishing;
-2. no changes — exits quietly (`no changes`);
-3. pricing/context only (the model id/name set is unchanged and the manifest's `decisionModels[]`
-   entries match the catalog; only `context_length`/`pricing.prompt` moved) — rewrites the snapshot
-   and pushes a plain commit
-   (`chore: refresh decision models catalog (pricing/context only, no release)`): no manifest
-   regeneration, no version bump, no tag, no release;
-4. identity changes (the model id/name set changed — models added, removed, or renamed) or a
-   manifest whose `decisionModels[]` entries no longer match the catalog (e.g. a hand-edited or
-   stale manifest, even with no catalog change) — full release: rewrites the snapshot, regenerates
-   `decisionModels[]` in the manifest, bumps the patch version, commits
-   (`chore: refresh decision models catalog`), tags `v<version>`, and pushes branch + tag in a
-   single push. After a successful push the script exports the tag as a step output (`release-tag`);
-   the workflow's next step dispatches the publish workflow for it
-   (`gh workflow run package-publish.yml --ref "v<version>"`) with a 3-attempt retry; in manual local
-   runs it just prints `pushed release: <tag>`. `package-publish.yml` also keeps its
-   `on: push: tags: 'v*'` trigger, so tags pushed manually by the maintainer from their own
-   credentials publish as before — the sync script never publishes manually.
-
-The first automated release must be cut after this change set is merged: `gh workflow run` resolves
-`package-publish.yml` on the pushed tag, so a tag cut from a commit whose tree lacks the
-`workflow_dispatch` trigger would fail to dispatch.
-
-The script guards against races and half-published releases before writing anything: it aborts
-cleanly if the remote branch has moved ahead (fetch + divergence check), refuses to proceed when the
-prospective `v<version>` tag already exists locally or on origin, and applies per-command timeouts.
-It also self-heals stranded releases: if the pushed `v<version>` tag has no successful
-`package-publish` run on origin (its dispatch failed on a previous run while the tag push succeeded),
-the next sync detects this via `gh run list` and re-dispatches the publish workflow (3 attempts) in
-CI, or aborts with the exact manual command (`gh workflow run package-publish.yml --ref <tag>`) in
-local runs.
-
-You can also run it manually: `node scripts/sync-models.mjs`.
-
-## Build
-
-```
-npm install
-npm run build   # tsc -> dist/
+```json
+{
+  "agents": { "defaults": { "decisionModel": "openrouter-decisions/~typesafe/jev-latest" } }
+}
 ```
 
-TypeScript strict mode, `target: es2024`, `module: nodenext`. The plugin entry point is
-`dist/index.js` (see `openclaw.extensions` in `package.json`).
+Because they follow upstream, a `~`-alias may change behavior without a plugin update. Only the
+`~`-prefixed aliases are excluded from the *generated catalog files* (they are not stable wire ids);
+they are not excluded from the provider, so using one explicitly is fully supported.
+
+### Noul-only models
+
+The `respan/*` family accepts boolean questions only. Sending a `choice` or `score` question to a
+`respan/*` model fails with `unsupported-input` (verified live 2026-10-01). For all other models,
+`boolean`, `choice`, and `score` questions are supported.
+
+## The catalog is refreshed once a day
+
+The decision-model catalog is re-fetched from OpenRouter **once every 24 hours**. When upstream
+adds, removes, or renames models, the manifest's `decisionModels[]` and `models/decision-models.json`
+are regenerated automatically, and pricing/context changes are noted without a release. You do not
+need to update the plugin to see new models.
+
+## Question types
+
+| Question type | Behavior |
+|---|---|
+| `boolean` | Sent to OpenRouter as `noul`; the numeric answer (0..1) is returned as `{ "type": "boolean", "probabilityTrue": <0..1> }`. |
+| `choice` | Passed through; returns the chosen alternative plus per-alternative probabilities. |
+| `score` | Passed through; returns the score plus per-level probabilities. |
 
 ## License
 
