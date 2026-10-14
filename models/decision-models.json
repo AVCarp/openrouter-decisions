@@ -52,7 +52,7 @@
     "name": "LiquidAI: d1",
     "context_length": 65536,
     "pricing": {
-      "prompt": "0.00000004"
+      "prompt": "0.00000002"
     }
   },
   {
