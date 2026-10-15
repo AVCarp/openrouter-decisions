@@ -10,7 +10,7 @@
   {
     "id": "cloudflare/clef-flash",
     "name": "Cloudflare: Clef Flash",
-    "context_length": 24576,
+    "context_length": 65536,
     "pricing": {
       "prompt": "0.000000021"
     }
@@ -138,7 +138,15 @@
   {
     "id": "typesafe/jev-1.13",
     "name": "TypeSafe: Jev 1.13",
-    "context_length": 64000,
+    "context_length": 262144,
+    "pricing": {
+      "prompt": "0.000000042"
+    }
+  },
+  {
+    "id": "typesafe/jev-1.14",
+    "name": "TypeSafe: Jev 1.14",
+    "context_length": 262144,
     "pricing": {
       "prompt": "0.000000042"
     }

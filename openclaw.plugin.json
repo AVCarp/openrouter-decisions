@@ -382,6 +382,22 @@
     },
     {
       "provider": "openrouter-decisions",
+      "id": "typesafe/jev-1.14",
+      "name": "TypeSafe: Jev 1.14",
+      "capabilities": {
+        "questionTypes": [
+          "boolean",
+          "choice",
+          "score"
+        ],
+        "maxQuestions": 256,
+        "maxChoiceAlternatives": 255,
+        "maxScoreLevels": 10,
+        "confidence": "provider-specific"
+      }
+    },
+    {
+      "provider": "openrouter-decisions",
       "id": "upstage/solar-decide",
       "name": "Upstage: Solar Decide",
       "capabilities": {
@@ -413,5 +429,5 @@
       }
     }
   ],
-  "version": "0.1.6"
+  "version": "0.1.7"
 }
