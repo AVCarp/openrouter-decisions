@@ -286,8 +286,40 @@
     },
     {
       "provider": "openrouter-decisions",
+      "id": "perplexity/pplx-decider-flash-v1.2",
+      "name": "Perplexity: Decider Flash V1.2",
+      "capabilities": {
+        "questionTypes": [
+          "boolean",
+          "choice",
+          "score"
+        ],
+        "maxQuestions": 256,
+        "maxChoiceAlternatives": 255,
+        "maxScoreLevels": 10,
+        "confidence": "provider-specific"
+      }
+    },
+    {
+      "provider": "openrouter-decisions",
       "id": "perplexity/pplx-decider-v1.1-27b",
       "name": "Perplexity: Decider V1.1 27B",
+      "capabilities": {
+        "questionTypes": [
+          "boolean",
+          "choice",
+          "score"
+        ],
+        "maxQuestions": 256,
+        "maxChoiceAlternatives": 255,
+        "maxScoreLevels": 10,
+        "confidence": "provider-specific"
+      }
+    },
+    {
+      "provider": "openrouter-decisions",
+      "id": "perplexity/pplx-decider-v1.2",
+      "name": "Perplexity: Decider V1.2",
       "capabilities": {
         "questionTypes": [
           "boolean",
@@ -461,5 +493,5 @@
       }
     }
   ],
-  "version": "0.1.8"
+  "version": "0.1.9"
 }
