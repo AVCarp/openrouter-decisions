@@ -12,7 +12,7 @@
     "name": "Cloudflare: Clef Flash",
     "context_length": 24576,
     "pricing": {
-      "prompt": "0.000000021"
+      "prompt": "0.000000038"
     }
   },
   {
@@ -101,14 +101,6 @@
     "context_length": 262144,
     "pricing": {
       "prompt": "0.00000001"
-    }
-  },
-  {
-    "id": "perplexity/pplx-decider-v1.1-27b",
-    "name": "Perplexity: Decider V1.1 27B",
-    "context_length": 262144,
-    "pricing": {
-      "prompt": "0.00000002"
     }
   },
   {
