@@ -1,10 +1,26 @@
 [
   {
+    "id": "baseten/elephant-1:free",
+    "name": "Baseten: Elephant 1 (free)",
+    "context_length": 16384,
+    "pricing": {
+      "prompt": "0"
+    }
+  },
+  {
+    "id": "baseten/mammoth-1:free",
+    "name": "Baseten: Mammoth 1 (free)",
+    "context_length": 16384,
+    "pricing": {
+      "prompt": "0"
+    }
+  },
+  {
     "id": "cloudflare/clef",
     "name": "Cloudflare: Clef",
     "context_length": 65537,
     "pricing": {
-      "prompt": "0.00000024"
+      "prompt": "0.000000042"
     }
   },
   {
@@ -69,6 +85,14 @@
     "context_length": 32768,
     "pricing": {
       "prompt": "0.000000042"
+    }
+  },
+  {
+    "id": "nace-ai/drex-max",
+    "name": "Nace.AI: Drex Max",
+    "context_length": 262144,
+    "pricing": {
+      "prompt": "0.00000006"
     }
   },
   {

@@ -94,6 +94,38 @@
   "decisionModels": [
     {
       "provider": "openrouter-decisions",
+      "id": "baseten/elephant-1:free",
+      "name": "Baseten: Elephant 1 (free)",
+      "capabilities": {
+        "questionTypes": [
+          "boolean",
+          "choice",
+          "score"
+        ],
+        "maxQuestions": 256,
+        "maxChoiceAlternatives": 255,
+        "maxScoreLevels": 10,
+        "confidence": "provider-specific"
+      }
+    },
+    {
+      "provider": "openrouter-decisions",
+      "id": "baseten/mammoth-1:free",
+      "name": "Baseten: Mammoth 1 (free)",
+      "capabilities": {
+        "questionTypes": [
+          "boolean",
+          "choice",
+          "score"
+        ],
+        "maxQuestions": 256,
+        "maxChoiceAlternatives": 255,
+        "maxScoreLevels": 10,
+        "confidence": "provider-specific"
+      }
+    },
+    {
+      "provider": "openrouter-decisions",
       "id": "cloudflare/clef",
       "name": "Cloudflare: Clef",
       "capabilities": {
@@ -224,6 +256,22 @@
       "provider": "openrouter-decisions",
       "id": "microsoft/microsoft-decision-1",
       "name": "Microsoft: Microsoft-Decision-1",
+      "capabilities": {
+        "questionTypes": [
+          "boolean",
+          "choice",
+          "score"
+        ],
+        "maxQuestions": 256,
+        "maxChoiceAlternatives": 255,
+        "maxScoreLevels": 10,
+        "confidence": "provider-specific"
+      }
+    },
+    {
+      "provider": "openrouter-decisions",
+      "id": "nace-ai/drex-max",
+      "name": "Nace.AI: Drex Max",
       "capabilities": {
         "questionTypes": [
           "boolean",
@@ -477,5 +525,5 @@
       }
     }
   ],
-  "version": "0.1.10"
+  "version": "0.1.11"
 }
