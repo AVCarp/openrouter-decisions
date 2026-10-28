@@ -94,38 +94,6 @@
   "decisionModels": [
     {
       "provider": "openrouter-decisions",
-      "id": "baseten/elephant-1:free",
-      "name": "Baseten: Elephant 1 (free)",
-      "capabilities": {
-        "questionTypes": [
-          "boolean",
-          "choice",
-          "score"
-        ],
-        "maxQuestions": 256,
-        "maxChoiceAlternatives": 255,
-        "maxScoreLevels": 10,
-        "confidence": "provider-specific"
-      }
-    },
-    {
-      "provider": "openrouter-decisions",
-      "id": "baseten/mammoth-1:free",
-      "name": "Baseten: Mammoth 1 (free)",
-      "capabilities": {
-        "questionTypes": [
-          "boolean",
-          "choice",
-          "score"
-        ],
-        "maxQuestions": 256,
-        "maxChoiceAlternatives": 255,
-        "maxScoreLevels": 10,
-        "confidence": "provider-specific"
-      }
-    },
-    {
-      "provider": "openrouter-decisions",
       "id": "cloudflare/clef",
       "name": "Cloudflare: Clef",
       "capabilities": {
@@ -190,22 +158,6 @@
     },
     {
       "provider": "openrouter-decisions",
-      "id": "inception/mercury-decide:free",
-      "name": "Inception: Mercury Decide (free)",
-      "capabilities": {
-        "questionTypes": [
-          "boolean",
-          "choice",
-          "score"
-        ],
-        "maxQuestions": 256,
-        "maxChoiceAlternatives": 255,
-        "maxScoreLevels": 10,
-        "confidence": "provider-specific"
-      }
-    },
-    {
-      "provider": "openrouter-decisions",
       "id": "jaredpalmer/kev-4b",
       "name": "Jared Palmer: Kev 4B",
       "capabilities": {
@@ -240,6 +192,22 @@
       "provider": "openrouter-decisions",
       "id": "liquid/d1-ultra",
       "name": "LiquidAI: d1-ultra",
+      "capabilities": {
+        "questionTypes": [
+          "boolean",
+          "choice",
+          "score"
+        ],
+        "maxQuestions": 256,
+        "maxChoiceAlternatives": 255,
+        "maxScoreLevels": 10,
+        "confidence": "provider-specific"
+      }
+    },
+    {
+      "provider": "openrouter-decisions",
+      "id": "liquid/d1.1",
+      "name": "LiquidAI: d1.1",
       "capabilities": {
         "questionTypes": [
           "boolean",
@@ -525,5 +493,5 @@
       }
     }
   ],
-  "version": "0.1.11"
+  "version": "0.1.12"
 }

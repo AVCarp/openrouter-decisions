@@ -1,21 +1,5 @@
 [
   {
-    "id": "baseten/elephant-1:free",
-    "name": "Baseten: Elephant 1 (free)",
-    "context_length": 16384,
-    "pricing": {
-      "prompt": "0"
-    }
-  },
-  {
-    "id": "baseten/mammoth-1:free",
-    "name": "Baseten: Mammoth 1 (free)",
-    "context_length": 16384,
-    "pricing": {
-      "prompt": "0"
-    }
-  },
-  {
     "id": "cloudflare/clef",
     "name": "Cloudflare: Clef",
     "context_length": 65537,
@@ -28,7 +12,7 @@
     "name": "Cloudflare: Clef Flash",
     "context_length": 24576,
     "pricing": {
-      "prompt": "0.000000019"
+      "prompt": "0.000000038"
     }
   },
   {
@@ -45,14 +29,6 @@
     "context_length": 65536,
     "pricing": {
       "prompt": "0.00000002"
-    }
-  },
-  {
-    "id": "inception/mercury-decide:free",
-    "name": "Inception: Mercury Decide (free)",
-    "context_length": 65536,
-    "pricing": {
-      "prompt": "0"
     }
   },
   {
@@ -80,6 +56,14 @@
     }
   },
   {
+    "id": "liquid/d1.1",
+    "name": "LiquidAI: d1.1",
+    "context_length": 65536,
+    "pricing": {
+      "prompt": "0.00000002"
+    }
+  },
+  {
     "id": "microsoft/microsoft-decision-1",
     "name": "Microsoft: Microsoft-Decision-1",
     "context_length": 32768,
@@ -92,7 +76,7 @@
     "name": "Nace.AI: Drex Max",
     "context_length": 262144,
     "pricing": {
-      "prompt": "0.00000012"
+      "prompt": "0.00000006"
     }
   },
   {
