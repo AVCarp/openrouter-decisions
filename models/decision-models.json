@@ -1,10 +1,26 @@
 [
   {
+    "id": "baseten/elephant-1",
+    "name": "Baseten: Elephant 1",
+    "context_length": 16384,
+    "pricing": {
+      "prompt": "0.000000035"
+    }
+  },
+  {
+    "id": "baseten/mammoth-1",
+    "name": "Baseten: Mammoth 1",
+    "context_length": 16384,
+    "pricing": {
+      "prompt": "0.0000001"
+    }
+  },
+  {
     "id": "cloudflare/clef",
     "name": "Cloudflare: Clef",
     "context_length": 65537,
     "pricing": {
-      "prompt": "0.000000042"
+      "prompt": "0.00000024"
     }
   },
   {
