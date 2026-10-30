@@ -110,8 +110,40 @@
     },
     {
       "provider": "openrouter-decisions",
+      "id": "baseten/joey-1",
+      "name": "Baseten: Joey 1",
+      "capabilities": {
+        "questionTypes": [
+          "boolean",
+          "choice",
+          "score"
+        ],
+        "maxQuestions": 256,
+        "maxChoiceAlternatives": 255,
+        "maxScoreLevels": 10,
+        "confidence": "provider-specific"
+      }
+    },
+    {
+      "provider": "openrouter-decisions",
       "id": "baseten/mammoth-1",
       "name": "Baseten: Mammoth 1",
+      "capabilities": {
+        "questionTypes": [
+          "boolean",
+          "choice",
+          "score"
+        ],
+        "maxQuestions": 256,
+        "maxChoiceAlternatives": 255,
+        "maxScoreLevels": 10,
+        "confidence": "provider-specific"
+      }
+    },
+    {
+      "provider": "openrouter-decisions",
+      "id": "cloudflare/clairic",
+      "name": "Cloudflare: Clairic",
       "capabilities": {
         "questionTypes": [
           "boolean",
@@ -525,5 +557,5 @@
       }
     }
   ],
-  "version": "0.1.13"
+  "version": "0.1.14"
 }

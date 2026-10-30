@@ -8,9 +8,25 @@
     }
   },
   {
+    "id": "baseten/joey-1",
+    "name": "Baseten: Joey 1",
+    "context_length": 16384,
+    "pricing": {
+      "prompt": "0.00000001"
+    }
+  },
+  {
     "id": "baseten/mammoth-1",
     "name": "Baseten: Mammoth 1",
     "context_length": 16384,
+    "pricing": {
+      "prompt": "0.0000001"
+    }
+  },
+  {
+    "id": "cloudflare/clairic",
+    "name": "Cloudflare: Clairic",
+    "context_length": 65536,
     "pricing": {
       "prompt": "0.0000001"
     }
