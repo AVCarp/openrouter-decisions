@@ -1,6 +1,6 @@
 {
   "name": "@AVCarp/openrouter-decisions",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "private": false,
   "description": "OpenRouter Decisions - typed decision provider via OpenRouter's Decisions API (/api/alpha/decisions). Full model ids on the wire, tolerant response validation, optional apiKey SecretRef, baseUrl defaults to https://openrouter.ai.",
   "type": "module",

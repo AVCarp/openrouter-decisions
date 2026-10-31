@@ -24,14 +24,6 @@
     }
   },
   {
-    "id": "cloudflare/clairic",
-    "name": "Cloudflare: Clairic",
-    "context_length": 65536,
-    "pricing": {
-      "prompt": "0.0000001"
-    }
-  },
-  {
     "id": "cloudflare/clef",
     "name": "Cloudflare: Clef",
     "context_length": 65537,

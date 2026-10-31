@@ -142,22 +142,6 @@
     },
     {
       "provider": "openrouter-decisions",
-      "id": "cloudflare/clairic",
-      "name": "Cloudflare: Clairic",
-      "capabilities": {
-        "questionTypes": [
-          "boolean",
-          "choice",
-          "score"
-        ],
-        "maxQuestions": 256,
-        "maxChoiceAlternatives": 255,
-        "maxScoreLevels": 10,
-        "confidence": "provider-specific"
-      }
-    },
-    {
-      "provider": "openrouter-decisions",
       "id": "cloudflare/clef",
       "name": "Cloudflare: Clef",
       "capabilities": {
@@ -557,5 +541,5 @@
       }
     }
   ],
-  "version": "0.1.14"
+  "version": "0.1.15"
 }
