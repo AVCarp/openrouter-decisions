@@ -142,6 +142,22 @@
     },
     {
       "provider": "openrouter-decisions",
+      "id": "cloudflare/clairic",
+      "name": "Cloudflare: Clairic",
+      "capabilities": {
+        "questionTypes": [
+          "boolean",
+          "choice",
+          "score"
+        ],
+        "maxQuestions": 256,
+        "maxChoiceAlternatives": 255,
+        "maxScoreLevels": 10,
+        "confidence": "provider-specific"
+      }
+    },
+    {
+      "provider": "openrouter-decisions",
       "id": "cloudflare/clef",
       "name": "Cloudflare: Clef",
       "capabilities": {
@@ -272,6 +288,22 @@
       "provider": "openrouter-decisions",
       "id": "microsoft/microsoft-decision-1",
       "name": "Microsoft: Microsoft-Decision-1",
+      "capabilities": {
+        "questionTypes": [
+          "boolean",
+          "choice",
+          "score"
+        ],
+        "maxQuestions": 256,
+        "maxChoiceAlternatives": 255,
+        "maxScoreLevels": 10,
+        "confidence": "provider-specific"
+      }
+    },
+    {
+      "provider": "openrouter-decisions",
+      "id": "morph/reflex",
+      "name": "Morph: Reflex",
       "capabilities": {
         "questionTypes": [
           "boolean",
@@ -541,5 +573,5 @@
       }
     }
   ],
-  "version": "0.1.15"
+  "version": "0.1.16"
 }

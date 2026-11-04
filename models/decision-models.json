@@ -24,6 +24,14 @@
     }
   },
   {
+    "id": "cloudflare/clairic",
+    "name": "Cloudflare: Clairic",
+    "context_length": 65536,
+    "pricing": {
+      "prompt": "0.0000001"
+    }
+  },
+  {
     "id": "cloudflare/clef",
     "name": "Cloudflare: Clef",
     "context_length": 65537,
@@ -91,6 +99,14 @@
     "id": "microsoft/microsoft-decision-1",
     "name": "Microsoft: Microsoft-Decision-1",
     "context_length": 32768,
+    "pricing": {
+      "prompt": "0.000000042"
+    }
+  },
+  {
+    "id": "morph/reflex",
+    "name": "Morph: Reflex",
+    "context_length": 65536,
     "pricing": {
       "prompt": "0.000000042"
     }
