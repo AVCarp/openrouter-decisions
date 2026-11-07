@@ -382,6 +382,22 @@
     },
     {
       "provider": "openrouter-decisions",
+      "id": "parallel/decisions-fast:free",
+      "name": "Parallel: Decisions Fast (free)",
+      "capabilities": {
+        "questionTypes": [
+          "boolean",
+          "choice",
+          "score"
+        ],
+        "maxQuestions": 256,
+        "maxChoiceAlternatives": 255,
+        "maxScoreLevels": 10,
+        "confidence": "provider-specific"
+      }
+    },
+    {
+      "provider": "openrouter-decisions",
       "id": "perplexity/pplx-decider-flash-v1.2",
       "name": "Perplexity: Decider Flash V1.2",
       "capabilities": {
@@ -573,5 +589,5 @@
       }
     }
   ],
-  "version": "0.1.16"
+  "version": "0.1.17"
 }
