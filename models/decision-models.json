@@ -56,14 +56,6 @@
     }
   },
   {
-    "id": "inception/mercury-decide",
-    "name": "Inception: Mercury Decide",
-    "context_length": 65536,
-    "pricing": {
-      "prompt": "0.00000002"
-    }
-  },
-  {
     "id": "jaredpalmer/kev-4b",
     "name": "Jared Palmer: Kev 4B",
     "context_length": 8192,

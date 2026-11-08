@@ -206,22 +206,6 @@
     },
     {
       "provider": "openrouter-decisions",
-      "id": "inception/mercury-decide",
-      "name": "Inception: Mercury Decide",
-      "capabilities": {
-        "questionTypes": [
-          "boolean",
-          "choice",
-          "score"
-        ],
-        "maxQuestions": 256,
-        "maxChoiceAlternatives": 255,
-        "maxScoreLevels": 10,
-        "confidence": "provider-specific"
-      }
-    },
-    {
-      "provider": "openrouter-decisions",
       "id": "jaredpalmer/kev-4b",
       "name": "Jared Palmer: Kev 4B",
       "capabilities": {
@@ -589,5 +573,5 @@
       }
     }
   ],
-  "version": "0.1.17"
+  "version": "0.1.18"
 }
