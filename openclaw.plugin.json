@@ -318,6 +318,22 @@
     },
     {
       "provider": "openrouter-decisions",
+      "id": "nace-ai/drex-max-finance",
+      "name": "Nace.AI: Drex Max Finance",
+      "capabilities": {
+        "questionTypes": [
+          "boolean",
+          "choice",
+          "score"
+        ],
+        "maxQuestions": 256,
+        "maxChoiceAlternatives": 255,
+        "maxScoreLevels": 10,
+        "confidence": "provider-specific"
+      }
+    },
+    {
+      "provider": "openrouter-decisions",
       "id": "nace-ai/drex-v1.5",
       "name": "Nace.AI: Drex v1.5",
       "capabilities": {
@@ -573,5 +589,5 @@
       }
     }
   ],
-  "version": "0.1.18"
+  "version": "0.1.19"
 }
