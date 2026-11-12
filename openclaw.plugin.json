@@ -206,6 +206,22 @@
     },
     {
       "provider": "openrouter-decisions",
+      "id": "google/gemini-decision-1",
+      "name": "Google: Gemini Decision 1",
+      "capabilities": {
+        "questionTypes": [
+          "boolean",
+          "choice",
+          "score"
+        ],
+        "maxQuestions": 256,
+        "maxChoiceAlternatives": 255,
+        "maxScoreLevels": 10,
+        "confidence": "provider-specific"
+      }
+    },
+    {
+      "provider": "openrouter-decisions",
       "id": "jaredpalmer/kev-4b",
       "name": "Jared Palmer: Kev 4B",
       "capabilities": {
@@ -589,5 +605,5 @@
       }
     }
   ],
-  "version": "0.1.19"
+  "version": "0.1.20"
 }
