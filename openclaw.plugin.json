@@ -222,6 +222,38 @@
     },
     {
       "provider": "openrouter-decisions",
+      "id": "heygen/heygen-decision-1",
+      "name": "HeyGen: HeyGen Decision",
+      "capabilities": {
+        "questionTypes": [
+          "boolean",
+          "choice",
+          "score"
+        ],
+        "maxQuestions": 256,
+        "maxChoiceAlternatives": 255,
+        "maxScoreLevels": 10,
+        "confidence": "provider-specific"
+      }
+    },
+    {
+      "provider": "openrouter-decisions",
+      "id": "heygen/heygen-decision-1-turbo",
+      "name": "HeyGen: HeyGen Decision Turbo",
+      "capabilities": {
+        "questionTypes": [
+          "boolean",
+          "choice",
+          "score"
+        ],
+        "maxQuestions": 256,
+        "maxChoiceAlternatives": 255,
+        "maxScoreLevels": 10,
+        "confidence": "provider-specific"
+      }
+    },
+    {
+      "provider": "openrouter-decisions",
       "id": "jaredpalmer/kev-4b",
       "name": "Jared Palmer: Kev 4B",
       "capabilities": {
@@ -430,8 +462,40 @@
     },
     {
       "provider": "openrouter-decisions",
+      "id": "perplexity/pplx-decider-flash-v1.3:free",
+      "name": "Perplexity: Decider Flash V1.3 (free)",
+      "capabilities": {
+        "questionTypes": [
+          "boolean",
+          "choice",
+          "score"
+        ],
+        "maxQuestions": 256,
+        "maxChoiceAlternatives": 255,
+        "maxScoreLevels": 10,
+        "confidence": "provider-specific"
+      }
+    },
+    {
+      "provider": "openrouter-decisions",
       "id": "perplexity/pplx-decider-v1.2",
       "name": "Perplexity: Decider V1.2",
+      "capabilities": {
+        "questionTypes": [
+          "boolean",
+          "choice",
+          "score"
+        ],
+        "maxQuestions": 256,
+        "maxChoiceAlternatives": 255,
+        "maxScoreLevels": 10,
+        "confidence": "provider-specific"
+      }
+    },
+    {
+      "provider": "openrouter-decisions",
+      "id": "perplexity/pplx-decider-v1.3:free",
+      "name": "Perplexity: Decider V1.3 (free)",
       "capabilities": {
         "questionTypes": [
           "boolean",
@@ -605,5 +669,5 @@
       }
     }
   ],
-  "version": "0.1.20"
+  "version": "0.1.21"
 }

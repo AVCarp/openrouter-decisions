@@ -64,6 +64,22 @@
     }
   },
   {
+    "id": "heygen/heygen-decision-1",
+    "name": "HeyGen: HeyGen Decision",
+    "context_length": 131072,
+    "pricing": {
+      "prompt": "0.00000014"
+    }
+  },
+  {
+    "id": "heygen/heygen-decision-1-turbo",
+    "name": "HeyGen: HeyGen Decision Turbo",
+    "context_length": 262144,
+    "pricing": {
+      "prompt": "0.00000009"
+    }
+  },
+  {
     "id": "jaredpalmer/kev-4b",
     "name": "Jared Palmer: Kev 4B",
     "context_length": 8192,
@@ -168,11 +184,27 @@
     }
   },
   {
+    "id": "perplexity/pplx-decider-flash-v1.3:free",
+    "name": "Perplexity: Decider Flash V1.3 (free)",
+    "context_length": 262144,
+    "pricing": {
+      "prompt": "0"
+    }
+  },
+  {
     "id": "perplexity/pplx-decider-v1.2",
     "name": "Perplexity: Decider V1.2",
     "context_length": 262144,
     "pricing": {
       "prompt": "0.00000002"
+    }
+  },
+  {
+    "id": "perplexity/pplx-decider-v1.3:free",
+    "name": "Perplexity: Decider V1.3 (free)",
+    "context_length": 262144,
+    "pricing": {
+      "prompt": "0"
     }
   },
   {
