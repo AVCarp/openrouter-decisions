@@ -430,8 +430,8 @@
     },
     {
       "provider": "openrouter-decisions",
-      "id": "parallel/decisions-fast:free",
-      "name": "Parallel: Decisions Fast (free)",
+      "id": "parallel/decisions-fast",
+      "name": "Parallel: Decisions Fast",
       "capabilities": {
         "questionTypes": [
           "boolean",
@@ -669,5 +669,5 @@
       }
     }
   ],
-  "version": "0.1.21"
+  "version": "0.1.22"
 }
