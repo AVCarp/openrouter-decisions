@@ -112,6 +112,22 @@
     }
   },
   {
+    "id": "liquid/d1.2",
+    "name": "LiquidAI: d1.2",
+    "context_length": 65536,
+    "pricing": {
+      "prompt": "0.00000002"
+    }
+  },
+  {
+    "id": "liquid/d1.2-ultra",
+    "name": "LiquidAI: d1.2-ultra",
+    "context_length": 65536,
+    "pricing": {
+      "prompt": "0.000000042"
+    }
+  },
+  {
     "id": "microsoft/microsoft-decision-1",
     "name": "Microsoft: Microsoft-Decision-1",
     "context_length": 32768,

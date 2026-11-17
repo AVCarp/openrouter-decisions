@@ -318,6 +318,38 @@
     },
     {
       "provider": "openrouter-decisions",
+      "id": "liquid/d1.2",
+      "name": "LiquidAI: d1.2",
+      "capabilities": {
+        "questionTypes": [
+          "boolean",
+          "choice",
+          "score"
+        ],
+        "maxQuestions": 256,
+        "maxChoiceAlternatives": 255,
+        "maxScoreLevels": 10,
+        "confidence": "provider-specific"
+      }
+    },
+    {
+      "provider": "openrouter-decisions",
+      "id": "liquid/d1.2-ultra",
+      "name": "LiquidAI: d1.2-ultra",
+      "capabilities": {
+        "questionTypes": [
+          "boolean",
+          "choice",
+          "score"
+        ],
+        "maxQuestions": 256,
+        "maxChoiceAlternatives": 255,
+        "maxScoreLevels": 10,
+        "confidence": "provider-specific"
+      }
+    },
+    {
+      "provider": "openrouter-decisions",
       "id": "microsoft/microsoft-decision-1",
       "name": "Microsoft: Microsoft-Decision-1",
       "capabilities": {
@@ -669,5 +701,5 @@
       }
     }
   ],
-  "version": "0.1.22"
+  "version": "0.1.23"
 }
