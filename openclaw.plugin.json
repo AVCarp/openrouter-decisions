@@ -366,6 +366,22 @@
     },
     {
       "provider": "openrouter-decisions",
+      "id": "microsoft/microsoft-decision-1.1",
+      "name": "Microsoft: Microsoft-Decision-1.1",
+      "capabilities": {
+        "questionTypes": [
+          "boolean",
+          "choice",
+          "score"
+        ],
+        "maxQuestions": 256,
+        "maxChoiceAlternatives": 255,
+        "maxScoreLevels": 10,
+        "confidence": "provider-specific"
+      }
+    },
+    {
+      "provider": "openrouter-decisions",
       "id": "morph/reflex",
       "name": "Morph: Reflex",
       "capabilities": {
@@ -701,5 +717,5 @@
       }
     }
   ],
-  "version": "0.1.23"
+  "version": "0.1.24"
 }
