@@ -270,22 +270,6 @@
     },
     {
       "provider": "openrouter-decisions",
-      "id": "liquid/d1",
-      "name": "LiquidAI: d1",
-      "capabilities": {
-        "questionTypes": [
-          "boolean",
-          "choice",
-          "score"
-        ],
-        "maxQuestions": 256,
-        "maxChoiceAlternatives": 255,
-        "maxScoreLevels": 10,
-        "confidence": "provider-specific"
-      }
-    },
-    {
-      "provider": "openrouter-decisions",
       "id": "liquid/d1-ultra",
       "name": "LiquidAI: d1-ultra",
       "capabilities": {
@@ -717,5 +701,5 @@
       }
     }
   ],
-  "version": "0.1.24"
+  "version": "0.1.25"
 }
