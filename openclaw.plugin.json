@@ -94,8 +94,40 @@
   "decisionModels": [
     {
       "provider": "openrouter-decisions",
+      "id": "baseten/bison-1",
+      "name": "Baseten: Bison 1",
+      "capabilities": {
+        "questionTypes": [
+          "boolean",
+          "choice",
+          "score"
+        ],
+        "maxQuestions": 256,
+        "maxChoiceAlternatives": 255,
+        "maxScoreLevels": 10,
+        "confidence": "provider-specific"
+      }
+    },
+    {
+      "provider": "openrouter-decisions",
       "id": "baseten/elephant-1",
       "name": "Baseten: Elephant 1",
+      "capabilities": {
+        "questionTypes": [
+          "boolean",
+          "choice",
+          "score"
+        ],
+        "maxQuestions": 256,
+        "maxChoiceAlternatives": 255,
+        "maxScoreLevels": 10,
+        "confidence": "provider-specific"
+      }
+    },
+    {
+      "provider": "openrouter-decisions",
+      "id": "baseten/groundhog-1",
+      "name": "Baseten: Groundhog 1",
       "capabilities": {
         "questionTypes": [
           "boolean",
@@ -701,5 +733,5 @@
       }
     }
   ],
-  "version": "0.1.25"
+  "version": "0.1.26"
 }
