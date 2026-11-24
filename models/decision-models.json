@@ -60,7 +60,7 @@
     "name": "Cloudflare: Clef Flash",
     "context_length": 24576,
     "pricing": {
-      "prompt": "0.000000019"
+      "prompt": "0.000000038"
     }
   },
   {
@@ -81,7 +81,7 @@
   },
   {
     "id": "heygen/heygen-decision-1",
-    "name": "HeyGen: HeyGen Decision",
+    "name": "HeyGen: HeyGen Decision 1",
     "context_length": 262144,
     "pricing": {
       "prompt": "0.00000007"
@@ -89,7 +89,7 @@
   },
   {
     "id": "heygen/heygen-decision-1-turbo",
-    "name": "HeyGen: HeyGen Decision Turbo",
+    "name": "HeyGen: HeyGen Decision 1 Turbo",
     "context_length": 262144,
     "pricing": {
       "prompt": "0.000000042000000003"
@@ -109,14 +109,6 @@
     "context_length": 32768,
     "pricing": {
       "prompt": "0.000000042"
-    }
-  },
-  {
-    "id": "liquid/d1.1",
-    "name": "LiquidAI: d1.1",
-    "context_length": 65536,
-    "pricing": {
-      "prompt": "0.00000002"
     }
   },
   {

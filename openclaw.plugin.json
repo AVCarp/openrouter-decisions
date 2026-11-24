@@ -255,7 +255,7 @@
     {
       "provider": "openrouter-decisions",
       "id": "heygen/heygen-decision-1",
-      "name": "HeyGen: HeyGen Decision",
+      "name": "HeyGen: HeyGen Decision 1",
       "capabilities": {
         "questionTypes": [
           "boolean",
@@ -271,7 +271,7 @@
     {
       "provider": "openrouter-decisions",
       "id": "heygen/heygen-decision-1-turbo",
-      "name": "HeyGen: HeyGen Decision Turbo",
+      "name": "HeyGen: HeyGen Decision 1 Turbo",
       "capabilities": {
         "questionTypes": [
           "boolean",
@@ -304,22 +304,6 @@
       "provider": "openrouter-decisions",
       "id": "liquid/d1-ultra",
       "name": "LiquidAI: d1-ultra",
-      "capabilities": {
-        "questionTypes": [
-          "boolean",
-          "choice",
-          "score"
-        ],
-        "maxQuestions": 256,
-        "maxChoiceAlternatives": 255,
-        "maxScoreLevels": 10,
-        "confidence": "provider-specific"
-      }
-    },
-    {
-      "provider": "openrouter-decisions",
-      "id": "liquid/d1.1",
-      "name": "LiquidAI: d1.1",
       "capabilities": {
         "questionTypes": [
           "boolean",
@@ -733,5 +717,5 @@
       }
     }
   ],
-  "version": "0.1.26"
+  "version": "0.1.27"
 }
