@@ -1,5 +1,13 @@
 [
   {
+    "id": "antdigital/lingdt-decision-fast-1.0:free",
+    "name": "Ant Digital: LingDT Decision Fast 1.0 (free)",
+    "context_length": 32768,
+    "pricing": {
+      "prompt": "0"
+    }
+  },
+  {
     "id": "baseten/bison-1",
     "name": "Baseten: Bison 1",
     "context_length": 32768,

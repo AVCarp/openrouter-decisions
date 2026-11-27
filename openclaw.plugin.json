@@ -94,6 +94,22 @@
   "decisionModels": [
     {
       "provider": "openrouter-decisions",
+      "id": "antdigital/lingdt-decision-fast-1.0:free",
+      "name": "Ant Digital: LingDT Decision Fast 1.0 (free)",
+      "capabilities": {
+        "questionTypes": [
+          "boolean",
+          "choice",
+          "score"
+        ],
+        "maxQuestions": 256,
+        "maxChoiceAlternatives": 255,
+        "maxScoreLevels": 10,
+        "confidence": "provider-specific"
+      }
+    },
+    {
+      "provider": "openrouter-decisions",
       "id": "baseten/bison-1",
       "name": "Baseten: Bison 1",
       "capabilities": {
@@ -717,5 +733,5 @@
       }
     }
   ],
-  "version": "0.1.27"
+  "version": "0.1.28"
 }
